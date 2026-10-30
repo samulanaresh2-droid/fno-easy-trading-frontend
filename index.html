@@ -136,6 +136,19 @@ content="black-translucent">
 </div>
 <script src="./script.js"></script>
   <script>
+window.addEventListener("load", function () {
+  setTimeout(function () {
+    const splash = document.getElementById("splashScreen");
+
+    splash.style.opacity = "0";
+
+    setTimeout(function () {
+      splash.style.display = "none";
+    }, 500);
+
+  }, 1800);
+});
+    
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker.register(
