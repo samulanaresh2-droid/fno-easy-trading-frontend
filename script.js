@@ -105,15 +105,43 @@ function renderIndex(prefix, d) {
     "trend.ema50", "indicators.ema50", "ema50", "EMA50", "ema_50"
   ]);
 
-  const support = getValue(d, [
-    "supportResistance.support1",
-    "levels.support", "support", "support1", "s1"
-  ]);
+  const pivot = getValue(d, [
+  "supportResistance.pivot",
+  "levels.pivot",
+  "pivot"
+]);
 
-  const resistance = getValue(d, [
-    "supportResistance.resistance1",
-    "levels.resistance", "resistance", "resistance1", "r1"
-  ]);
+const support = getValue(d, [
+  "supportResistance.support",
+  "supportResistance.support2",
+  "levels.support",
+  "support",
+  "s1"
+]);
+
+const resistance = getValue(d, [
+  "supportResistance.resistance",
+  "supportResistance.resistance2",
+  "levels.resistance",
+  "resistance",
+  "r1"
+]);
+
+const support2 = getValue(d, [
+  "supportResistance.support2"
+]);
+
+const support3 = getValue(d, [
+  "supportResistance.support3"
+]);
+
+const resistance2 = getValue(d, [
+  "supportResistance.resistance2"
+]);
+
+const resistance3 = getValue(d, [
+  "supportResistance.resistance3"
+]);
 
   put(prefix + "Price", fmt(price));
   put(prefix + "Ema20", fmt(ema20));
