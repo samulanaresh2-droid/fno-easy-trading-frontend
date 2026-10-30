@@ -129,7 +129,7 @@ function renderIndex(prefix, d) {
     }`
   );
 
-  const trend = getTrend(d);
+  const trend = "SIDEWAYS";
   setTag(prefix + "Trend", trend);
 
   const changeEl = $(prefix + "Change");
