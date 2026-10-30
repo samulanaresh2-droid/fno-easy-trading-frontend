@@ -1,4 +1,4 @@
-const CACHE_NAME = "fno-easy-trader-v2";
+const CACHE_NAME = "fno-easy-trader-v3";
 
 const ASSETS = [
   "/",
@@ -38,21 +38,24 @@ self.addEventListener("fetch", event => {
   const url = new URL(request.url);
 
   if (url.origin !== self.location.origin) return;
-
   if (url.pathname.startsWith("/api/")) return;
 
-  if (request.mode === "navigate") {
+  const isCodeFile =
+    request.destination === "script" ||
+    request.destination === "style";
+
+  if (isCodeFile) {
     event.respondWith(
       fetch(request).then(response => {
         if (response.ok) {
           const copy = response.clone();
           caches.open(CACHE_NAME).then(cache =>
-            cache.put("/index.html", copy)
+            cache.put(request, copy)
           );
         }
         return response;
       }).catch(() =>
-        caches.match("/index.html")
+        caches.match(request)
       )
     );
     return;
