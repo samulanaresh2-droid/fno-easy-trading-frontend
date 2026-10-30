@@ -113,7 +113,7 @@ function getTrend(d) {
   
   if (price > ema20 && ema20 > ema50) return "BULLISH";
   if (price < ema20 && ema20 < ema50) return "BEARISH";
-  return "SIDEWAYS";
+  return " TEST WORKING ";
 }
 
 function renderIndex(prefix, d) {
