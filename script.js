@@ -45,7 +45,9 @@ function setTag(id, trend) {
 }
 
 function getTrend(d) {
+function getTrend(d) {
   const supplied = getValue(d, [
+    "trend.trend",
     "trend.direction",
     "trend.marketTrend",
     "marketTrend",
@@ -54,24 +56,36 @@ function getTrend(d) {
 
   if (typeof supplied === "string") {
     const s = supplied.toUpperCase();
+
     if (s.includes("BULL")) return "BULLISH";
     if (s.includes("BEAR")) return "BEARISH";
     if (s.includes("SIDE")) return "SIDEWAYS";
   }
 
   const ema20 = Number(getValue(d, [
-    "trend.ema20", "indicators.ema20", "ema20"
+    "trend.ema20",
+    "indicators.ema20",
+    "ema20"
   ]));
 
   const ema50 = Number(getValue(d, [
-    "trend.ema50", "indicators.ema50", "ema50"
+    "trend.ema50",
+    "indicators.ema50",
+    "ema50"
   ]));
 
   const price = Number(getValue(d, [
-    "price", "ltp", "lastPrice", "spot", "close"
+    "trend.lastCompletedClose",
+    "price",
+    "ltp",
+    "lastPrice",
+    "spot",
+    "close"
   ]));
 
-  if (![ema20, ema50, price].every(Number.isFinite)) return "WAIT";
+  if (![ema20, ema50, price].every(Number.isFinite)) {
+    return "WAIT";
+  }
 
   if (price > ema20 && ema20 > ema50) return "BULLISH";
   if (price < ema20 && ema20 < ema50) return "BEARISH";
