@@ -45,7 +45,6 @@ function setTag(id, trend) {
 }
 
 function getTrend(d) {
-function getTrend(d) {
   const supplied = getValue(d, [
     "trend.trend",
     "trend.direction",
