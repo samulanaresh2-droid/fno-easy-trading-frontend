@@ -163,7 +163,12 @@ const resistance3 = getValue(d, [
 
   const trend = getTrend(d);
   setTag(prefix + "Trend", trend);
+  
+  const crossoverStatus = trend.includes("CROSSOVER")
+  ? trend
+  : "NO CROSSOVER";
 
+setTag(prefix + "Crossover", crossoverStatus);
   const changeEl = $(prefix + "Change");
   if (changeEl) {
     changeEl.className = "index-change " +
