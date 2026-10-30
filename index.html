@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<meta name="theme-color" content="#0b1428">
+
+<title>FNO EASY TRADER</title>
+
+<link rel="manifest" href="/manifest.json">
+
+<meta name="mobile-web-app-capable"
+content="yes">
+
+<meta name="apple-mobile-web-app-capable"
+content="yes">
+
+<meta name="apple-mobile-web-app-status-bar-style"
+content="black-translucent">
+
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<div class="shell">
+  <header class="header">
+    <div class="brand"><div class="brand-mark">⌁</div><div><h1>FNO EASY TRADING</h1><p>SMART MARKET DASHBOARD</p></div></div>
+    <button id="refreshBtn" class="refresh">↻ <span>REFRESH</span></button>
+  </header>
+
+  <div class="top-info">
+    <div><span class="live-dot"></span><span id="marketStatus">MARKET STATUS: --</span></div>
+    <div>UPDATED: <b id="lastChecked">--</b></div>
+    <div>SOURCE: <b id="dataSource">Backend API</b></div>
+    <div>DATA: <b id="verification" class="unverified">UNVERIFIED</b></div>
+  </div>
+
+  <section class="indices">
+    <article class="index-card">
+      <div class="index-head"><div><span class="index-symbol nifty-symbol">N</span><span class="index-title">NIFTY 50</span></div><span id="niftyTrend" class="tag wait">WAIT</span></div>
+      <div class="index-price" id="niftyPrice">--</div><div class="index-change" id="niftyChange">--</div>
+      <div class="index-stats">
+        <div><small>EMA 20</small><b id="niftyEma20">--</b></div>
+        <div><small>EMA 50</small><b id="niftyEma50">--</b></div>
+        <div><small>SUPPORT</small><b id="niftySupport">--</b></div>
+        <div><small>RESISTANCE</small><b id="niftyResistance">--</b></div>
+      </div>
+    </article>
+    <article class="index-card">
+      <div class="index-head"><div><span class="index-symbol bank-symbol">B</span><span class="index-title">BANK NIFTY</span></div><span id="bankTrend" class="tag wait">WAIT</span></div>
+      <div class="index-price" id="bankPrice">--</div><div class="index-change" id="bankChange">--</div>
+      <div class="index-stats">
+        <div><small>EMA 20</small><b id="bankEma20">--</b></div>
+        <div><small>EMA 50</small><b id="bankEma50">--</b></div>
+        <div><small>SUPPORT</small><b id="bankSupport">--</b></div>
+        <div><small>RESISTANCE</small><b id="bankResistance">--</b></div>
+      </div>
+    </article>
+  </section>
+
+  <section class="trade-section">
+    <div class="section-heading"><span class="heading-icon">✧</span><h2>TRADE SETUP</h2><span class="section-note">NIFTY 50 · INTRADAY</span></div>
+    <article class="trade-card">
+      <div class="trade-summary"><div><small>MARKET DIRECTION</small><h3 id="signalTitle">WAIT — NO TRADE</h3><p id="signalMessage">Waiting for market data confirmation.</p></div><span id="setupTrend" class="tag wait">WAIT</span></div>
+      <div class="trade-levels">
+        <div><small>ENTRY CONDITION</small><b id="entryCondition">--</b></div>
+        <div><small>STOP LOSS</small><b id="spotSL">--</b></div>
+        <div><small>TARGET 1</small><b id="spotT1">--</b></div>
+        <div><small>TARGET 2</small><b id="spotT2">--</b></div>
+      </div>
+    </article>
+  </section>
+
+  <section class="calculator-section">
+    <div class="section-heading"><span class="heading-icon">▦</span><h2>QUANTITY CALCULATOR</h2><span class="section-note">ESTIMATED VALUES</span></div>
+    <div class="calculators">
+      <article class="calc ce" id="ceCalculator">
+        <h3><span class="mini-icon ce-icon">↗</span> CALL OPTION <em>CE</em></h3>
+        <div class="fields">
+          <label>Lots<input id="ceLots" type="number" min="1" value="1"></label>
+          <label>Lot Size<input id="ceLotSize" type="number" min="1" value="65"></label>
+          <label>Premium ₹<input id="cePremium" type="number" min="0" value="120"></label>
+          <label>Stop Loss ₹<input id="ceSL" type="number" min="0" value="80"></label>
+          <label>Target 1 ₹<input id="ceT1" type="number" min="0" value="150"></label>
+          <label>Target 2 ₹<input id="ceT2" type="number" min="0" value="180"></label>
+        </div>
+        <div class="calc-results">
+          <div><small>QUANTITY</small><b id="ceQty">65</b></div>
+          <div><small>INVESTMENT</small><b id="ceInvestment">₹7,800</b></div>
+          <div><small>LOSS AT SL</small><b id="ceLoss">₹2,600</b></div>
+          <div><small>PROFIT T1</small><b id="ceProfit1">₹1,950</b></div>
+          <div class="full"><small>PROFIT T2</small><b id="ceProfit2">₹3,900</b></div>
+        </div>
+      </article>
+      <article class="calc pe" id="peCalculator">
+        <h3><span class="mini-icon pe-icon">↘</span> PUT OPTION <em>PE</em></h3>
+        <div class="fields">
+          <label>Lots<input id="peLots" type="number" min="1" value="1"></label>
+          <label>Lot Size<input id="peLotSize" type="number" min="1" value="65"></label>
+          <label>Premium ₹<input id="pePremium" type="number" min="0" value="110"></label>
+          <label>Stop Loss ₹<input id="peSL" type="number" min="0" value="70"></label>
+          <label>Target 1 ₹<input id="peT1" type="number" min="0" value="140"></label>
+          <label>Target 2 ₹<input id="peT2" type="number" min="0" value="170"></label>
+        </div>
+        <div class="calc-results">
+          <div><small>QUANTITY</small><b id="peQty">65</b></div>
+          <div><small>INVESTMENT</small><b id="peInvestment">₹7,150</b></div>
+          <div><small>LOSS AT SL</small><b id="peLoss">₹2,600</b></div>
+          <div><small>PROFIT T1</small><b id="peProfit1">₹1,950</b></div>
+          <div class="full"><small>PROFIT T2</small><b id="peProfit2">₹3,900</b></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="bottom-panels">
+    <article class="risk"><h3>⚑ RISK REMINDER</h3><p>Confirm trend, volume, OI and price action before any trade. Always use a stop-loss. Avoid trading when the market is unclear.</p></article>
+    <article class="disclaimer"><h3>ⓘ IMPORTANT NOTICE</h3><p>Data may be delayed or unverified. Use this dashboard for analysis and testing only unless your data provider confirms a verified live feed.</p></article>
+  </section>
+
+  <div class="order-actions">
+    <button id="ceBuyBtn" class="order-btn ce-order">CE BUY</button>
+    <button id="peBuyBtn" class="order-btn pe-order">PE BUY</button>
+    <p>Buttons select the relevant calculator only. They do not place broker orders.</p>
+  </div>
+  <footer>FNO EASY TRADING <span>•</span> INFORMATIONAL TOOL · NOT FINANCIAL ADVICE</footer>
+</div>
+<script src="./script.js"></script>
+  <script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register(
+      "/service-worker.js"
+    ).then(() => {
+      console.log("FNO EASY TRADER Ready");
+    }).catch(error => {
+      console.error("Service Worker Error:", error);
+    });
+  });
+}
+  </script>
+</body>
+</html>
