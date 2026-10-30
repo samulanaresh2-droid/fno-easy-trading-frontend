@@ -181,7 +181,7 @@ const resistance3 = getValue(d, [
     }`
   );
 
-  const trend = "SIDEWAYS";
+  const trend = getTrend(d);
   setTag(prefix + "Trend", trend);
 
   const changeEl = $(prefix + "Change");
