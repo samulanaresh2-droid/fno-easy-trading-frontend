@@ -45,22 +45,6 @@ function setTag(id, trend) {
 }
 
 function getTrend(d) {
-  const supplied = getValue(d, [
-    "trend.trend",
-    "trend.direction",
-    "trend.marketTrend",
-    "marketTrend",
-    "direction"
-  ]);
-
-  if (typeof supplied === "string") {
-    const s = supplied.toUpperCase();
-
-    if (s.includes("BULL")) return "BULLISH";
-    if (s.includes("BEAR")) return "BEARISH";
-    if (s.includes("SIDE")) return "SIDEWAYS";
-  }
-
   const ema20 = Number(getValue(d, [
     "trend.ema20",
     "indicators.ema20",
@@ -86,10 +70,6 @@ function getTrend(d) {
     return "WAIT";
   }
 
-  const crossover = getValue(d, [
-    "trend.crossover"
-  ]);
-
   const previousEma20 = Number(getValue(d, [
     "trend.previousEma20"
   ]));
@@ -110,12 +90,12 @@ function getTrend(d) {
       return "BEARISH CROSSOVER";
     }
   }
-  
+
   if (price > ema20 && ema20 > ema50) return "BULLISH";
   if (price < ema20 && ema20 < ema50) return "BEARISH";
-  return " TEST WORKING ";
-}
 
+  return "SIDEWAYS";
+}
 function renderIndex(prefix, d) {
   const price = getValue(d, ["price", "ltp", "lastPrice", "spot", "close"]);
   const change = getValue(d, ["change", "netChange"]);
