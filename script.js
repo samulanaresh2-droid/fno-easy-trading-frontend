@@ -141,19 +141,46 @@ function renderIndex(prefix, d) {
   return trend;
 }
 
-function signal(trend, data) {
-  const status = String(getValue(data, [
-    "verification", "dataStatus", "status",
-    "meta.verification", "meta.status"
-  ]) || "").toUpperCase();
+function signal(trend, data, indexData) {
+  const marketStatus = String(
+    getValue(data, ["marketStatus", "market_status"]) || ""
+  ).toUpperCase();
 
-  const verified = status.includes("LIVE") &&
-    !status.includes("UNVERIFIED") &&
-    !status.includes("EXPERIMENTAL");
+  const apiStatus = String(
+    getValue(data, ["status"]) || ""
+  ).toUpperCase();
 
-  if (!verified || !["BULLISH", "BEARISH"].includes(trend)) {
+  const verification = String(
+    getValue(indexData, ["delayedOrLive", "trend.delayedOrLive"]) || ""
+  ).toUpperCase();
+
+  const trendStatus = String(
+    getValue(indexData, ["trend.trendStatus"]) || ""
+  ).toUpperCase();
+
+  const timeframe = String(
+    getValue(indexData, ["trend.timeframe", "timeframe"]) || ""
+  ).toLowerCase();
+
+  const candleAge = Number(
+    getValue(indexData, ["trend.candleAgeSeconds"])
+  );
+
+  const safe =
+    marketStatus === "OPEN" &&
+    apiStatus !== "EXPERIMENTAL" &&
+    verification === "LIVE" &&
+    trendStatus !== "LAST_SESSION" &&
+    timeframe === "5m" &&
+    Number.isFinite(candleAge) &&
+    candleAge <= 300 &&
+    ["BULLISH", "BEARISH"].includes(trend);
+
+  if (!safe) {
     put("signalTitle", "WAIT — NO TRADE");
-    put("signalMessage", "Live data verification and trend confirmation required.");
+    put("signalMessage",
+      "Market and fresh 5-minute verified data confirmation required."
+    );
 
     ["entryCondition", "spotSL", "spotT1", "spotT2"]
       .forEach(id => put(id, "--"));
@@ -162,12 +189,17 @@ function signal(trend, data) {
     return;
   }
 
-  put("signalTitle",
-    trend === "BULLISH" ? "CE SETUP — CONFIRMATION REQUIRED" :
-    "PE SETUP — CONFIRMATION REQUIRED"
+  put(
+    "signalTitle",
+    trend === "BULLISH"
+      ? "CE SETUP — CONFIRMATION REQUIRED"
+      : "PE SETUP — CONFIRMATION REQUIRED"
   );
 
-  put("signalMessage", "Confirm volume, OI and risk before any trade.");
+  put("signalMessage",
+    "Trend detected. Volume, OI and risk confirmation are still required."
+  );
+
   setTag("setupTrend", trend);
 }
 
