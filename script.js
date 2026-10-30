@@ -220,7 +220,7 @@ async function loadMarket() {
 
     if (nifty) {
       const trend = renderIndex("nifty", nifty);
-      signal(trend, data);
+      signal(trend, data, nifty);
     }
 
     if (bank) renderIndex("bank", bank);
