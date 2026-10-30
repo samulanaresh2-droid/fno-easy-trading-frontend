@@ -1,0 +1,1 @@
+# fno-easy-trading-frontend
