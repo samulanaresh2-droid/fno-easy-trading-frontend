@@ -86,8 +86,6 @@ function getTrend(d) {
     return "WAIT";
   }
 
-  if (price > ema20 && ema20 > ema50) return "BULLISH";
-  if (price < ema20 && ema20 < ema50) return "BEARISH";
   const crossover = getValue(d, [
     "trend.crossover"
   ]);
@@ -112,6 +110,9 @@ function getTrend(d) {
       return "BEARISH CROSSOVER";
     }
   }
+  
+  if (price > ema20 && ema20 > ema50) return "BULLISH";
+  if (price < ema20 && ema20 < ema50) return "BEARISH";
   return "SIDEWAYS";
 }
 
